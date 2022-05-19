@@ -29,10 +29,13 @@ router.post("/bookcar", async (req, res) => {
 
     // if (payment) {
     // req.body.transactionId = payment.source.id;
-
+    const findUser = await User.findOne({ _id: req.body.user });
+    let userName = findUser?.username;
+    console.log("user name", userName);
     let bookObj = {
       car: req?.body.car,
       user: req?.body.user,
+      username: userName,
       bookedTimeSlots: req.body.bookedTimeSlots,
       totalHours: req.body.totalHours,
       totalAmount: req.body.totalAmount,
@@ -114,13 +117,13 @@ router.post("/GetusersOfabike", async (req, res) => {
     const { _id } = req.body;
     const booking = await Booking.find({ car: _id });
 
-    for (let i = 0; i < booking.length; i++) {
-      const { user } = booking[i];
-      const userFound = await User.findOne({ _id: user });
-      const { username } = userFound;
-      booking[i] = booking[i].toObject();
-      booking[i].username = username;
-    }
+    // for (let i = 0; i < booking.length; i++) {
+    //   const { user } = booking[i];
+    //   const userFound = await User.findOne({ _id: user });
+    //   const { username } = userFound;
+    //   booking[i] = booking[i].toObject();
+    //   booking[i].username = username;
+    // }
     // console.log("booking", booking);
     res.status(200).json(booking);
   } catch (error) {
