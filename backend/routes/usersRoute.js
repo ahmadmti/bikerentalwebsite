@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/userModel");
+const Booking = require("../models/bookingModel");
+const Car = require("../models/carModel");
 
 router.post("/login", async (req, res) => {
   // console.log("login", req.body);
@@ -71,6 +73,15 @@ router.post("/deleteuser", async (req, res) => {
   try {
     // console.log("del id", req.body);
     await User.findOneAndDelete({ _id: req.body.id });
+    let booking = await Booking.find({ user: req.body.id });
+    // console.log("user boomkings", booking);
+    for (let i = 0; i < booking.length; i++) {
+      const { car } = booking[i];
+      const carFound = await Car.findOne({ _id: car });
+      // console.log("car found", carFound);
+      carFound.isBooked = false;
+      carFound.save();
+    }
 
     res.send("User deleted successfully");
   } catch (error) {

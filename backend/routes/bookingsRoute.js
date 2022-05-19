@@ -9,7 +9,7 @@ const stripe = require("stripe")(process.env.BACK_END_STRIPE_KEY);
 router.post("/bookcar", async (req, res) => {
   const { token } = req.body;
   try {
-    console.log("booking", req.body);
+    // console.log("booking", req.body);
     // const customer = await stripe.customers.create({
     //   email: token.email,
     //   source: token.id,
@@ -29,10 +29,13 @@ router.post("/bookcar", async (req, res) => {
 
     // if (payment) {
     // req.body.transactionId = payment.source.id;
-
+    const findUser = await User.findOne({ _id: req.body.user });
+    let userName = findUser?.username;
+    console.log("user name", userName);
     let bookObj = {
       car: req?.body.car,
       user: req?.body.user,
+      username: userName,
       bookedTimeSlots: req.body.bookedTimeSlots,
       totalHours: req.body.totalHours,
       totalAmount: req.body.totalAmount,
@@ -41,7 +44,7 @@ router.post("/bookcar", async (req, res) => {
     const newbooking = new Booking(bookObj);
     await newbooking.save();
     const car = await Car.findOne({ _id: req.body.car });
-    console.log(req.body.car);
+    // console.log(req.body.car);
     car.bookedTimeSlots.push(req.body.bookedTimeSlots);
     car.isBooked = true;
 
@@ -68,7 +71,7 @@ router.get("/getallbookings", async (req, res) => {
 
 router.post("/cancelBooking", async (req, res) => {
   try {
-    console.log("cancel obj", req.body);
+    // console.log("cancel obj", req.body);
     const car = await Car.findOne({ _id: req.body._id });
     const booking = await Booking.findOne({ car: req.body._id });
     car.isBooked = false;
@@ -109,18 +112,18 @@ router.get("/getRating", async (req, res) => {
 });
 
 router.post("/GetusersOfabike", async (req, res) => {
-  console.log("boy", req.body);
+  // console.log("boy", req.body);
   try {
     const { _id } = req.body;
     const booking = await Booking.find({ car: _id });
 
-    for (let i = 0; i < booking.length; i++) {
-      const { user } = booking[i];
-      const userFound = await User.findOne({ _id: user });
-      const { username } = userFound;
-      booking[i] = booking[i].toObject();
-      booking[i].username = username;
-    }
+    // for (let i = 0; i < booking.length; i++) {
+    //   const { user } = booking[i];
+    //   const userFound = await User.findOne({ _id: user });
+    //   const { username } = userFound;
+    //   booking[i] = booking[i].toObject();
+    //   booking[i].username = username;
+    // }
     // console.log("booking", booking);
     res.status(200).json(booking);
   } catch (error) {
@@ -145,6 +148,33 @@ router.post("/GetBikesOfaUser", async (req, res) => {
     // console.log("booking", booking);
     res.status(200).json(booking);
     // res.send("Car details updated successfully");
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+});
+
+router.get("/checkExpireDate", async (req, res) => {
+  try {
+    console.log("hi");
+    const bookings = await Booking.find();
+    // console.log("booking", bookings);
+    let expiredBookings = bookings.map((item) => {
+      let to = new Date(item.bookedTimeSlots.to);
+      let currentDate = new Date();
+      if (to < currentDate) {
+        let carId = item.car;
+        // console.log("car id", carId);
+
+        Car.findOne({ _id: carId }).then((oneCar) => {
+          oneCar.isBooked = false;
+          oneCar.save();
+        });
+      }
+      // return console.log("test", currentDate, to);
+      // return console.log("test 2", dates.compare(currentDate, to));
+    });
+    // console.log("expiredBookings", expiredBookings);
+    res.send("ok");
   } catch (error) {
     return res.status(400).json(error);
   }
