@@ -12,12 +12,13 @@ const bookingsRoute = require("./routes/bookingsRoute");
 app.use("/api/bikes/", require("./routes/bikesRoute"));
 app.use("/api/users/", require("./routes/usersRoute"));
 app.use("/api/bookings/", require("./routes/bookingsRoute"));
+app.use(express.static(__dirname));
 
 //----------deployment-----------------
 
 __dirname = path.resolve();
 
-if (process.env.NODE_ENV === "production") {
+if ("production" === "production") {
   app.use(express.static(path.join(__dirname, "/frontend/build")));
 
   app.get("*", (req, res) => {

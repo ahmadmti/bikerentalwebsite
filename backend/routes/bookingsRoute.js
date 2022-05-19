@@ -73,7 +73,10 @@ router.post("/cancelBooking", async (req, res) => {
   try {
     // console.log("cancel obj", req.body);
     const car = await Car.findOne({ _id: req.body._id });
-    const booking = await Booking.findOne({ car: req.body._id });
+    const booking = await Booking.findOne({
+      car: req.body._id,
+      isBooked: true,
+    });
     car.isBooked = false;
     booking.isBooked = false;
     // console.log(booking, "booking");
