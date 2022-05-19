@@ -5,7 +5,7 @@ import { getAllCars } from "../redux/actions/carsActions";
 import { Col, Row, Divider, DatePicker, Checkbox } from "antd";
 import { Link } from "react-router-dom";
 import Rating from "@mui/material/Rating";
-
+import axios from "axios";
 import Spinner from "../components/Spinner";
 import moment from "moment";
 import Box from "@mui/material/Box";
@@ -32,9 +32,13 @@ function Home() {
   };
 
   useEffect(() => {
+    axios.get("/api/bookings/checkExpireDate").then((res) => {
+      console.log(res);
+    });
+  }, []);
+  useEffect(() => {
     dispatch(getAllCars());
   }, []);
-
   useEffect(() => {
     setTotalcars(cars);
     setArrayofcars(cars);
