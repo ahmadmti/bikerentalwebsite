@@ -152,4 +152,31 @@ router.post("/GetBikesOfaUser", async (req, res) => {
     return res.status(400).json(error);
   }
 });
+
+router.get("/checkExpireDate", async (req, res) => {
+  try {
+    console.log("hi");
+    const bookings = await Booking.find();
+    // console.log("booking", bookings);
+    let expiredBookings = bookings.map((item) => {
+      let to = new Date(item.bookedTimeSlots.to);
+      let currentDate = new Date();
+      if (to < currentDate) {
+        let carId = item.car;
+        // console.log("car id", carId);
+
+        Car.findOne({ _id: carId }).then((oneCar) => {
+          oneCar.isBooked = false;
+          oneCar.save();
+        });
+      }
+      // return console.log("test", currentDate, to);
+      // return console.log("test 2", dates.compare(currentDate, to));
+    });
+    // console.log("expiredBookings", expiredBookings);
+    res.send("ok");
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+});
 module.exports = router;
