@@ -7,12 +7,11 @@ router.get("/getallbikes", async (req, res) => {
   try {
     const cars = await Car.find();
     // console.log("cars", cars);
-    let average;
     for (let i = 0; i < cars.length; i++) {
       const { _id } = cars[i];
       let numbersOfRatings = 0;
       let sum = 0;
-
+      let average;
       const bookingsFound = await Booking.find({ car: _id });
       // console.log("bookingsFound", bookingsFound);
       for (let i = 0; i < bookingsFound.length; i++) {
@@ -29,7 +28,7 @@ router.get("/getallbikes", async (req, res) => {
       cars[i] = cars[i].toObject();
       cars[i].rating = average;
     }
-    console.log("cars", cars);
+    // console.log("cars", cars);
     res.send(cars);
   } catch (error) {
     return res.status(400).json(error);

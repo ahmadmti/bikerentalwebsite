@@ -81,11 +81,7 @@ function DefaultLayout(props) {
       <div className="footer text-center">
       <hr />
 
-           <p>CopyRight @ Bike Rental</p>
-
-           
-
-          
+           <p>CopyRight @ Bike Rental</p>    
           
       </div>
     </div>
