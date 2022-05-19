@@ -9,7 +9,7 @@ const stripe = require("stripe")(process.env.BACK_END_STRIPE_KEY);
 router.post("/bookcar", async (req, res) => {
   const { token } = req.body;
   try {
-    console.log("booking", req.body);
+    // console.log("booking", req.body);
     // const customer = await stripe.customers.create({
     //   email: token.email,
     //   source: token.id,
@@ -41,7 +41,7 @@ router.post("/bookcar", async (req, res) => {
     const newbooking = new Booking(bookObj);
     await newbooking.save();
     const car = await Car.findOne({ _id: req.body.car });
-    console.log(req.body.car);
+    // console.log(req.body.car);
     car.bookedTimeSlots.push(req.body.bookedTimeSlots);
     car.isBooked = true;
 
@@ -68,7 +68,7 @@ router.get("/getallbookings", async (req, res) => {
 
 router.post("/cancelBooking", async (req, res) => {
   try {
-    console.log("cancel obj", req.body);
+    // console.log("cancel obj", req.body);
     const car = await Car.findOne({ _id: req.body._id });
     const booking = await Booking.findOne({ car: req.body._id });
     car.isBooked = false;
@@ -109,7 +109,7 @@ router.get("/getRating", async (req, res) => {
 });
 
 router.post("/GetusersOfabike", async (req, res) => {
-  console.log("boy", req.body);
+  // console.log("boy", req.body);
   try {
     const { _id } = req.body;
     const booking = await Booking.find({ car: _id });
