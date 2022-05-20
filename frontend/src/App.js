@@ -56,3 +56,12 @@ export function ProtectedRoute(props)
     }
 
 }
+
+export function ProtectedHomeRoute(props) {
+  let user = localStorage.getItem("user");
+  if (user.isAdmin == false) {
+    return <Route {...props} />;
+  } else {
+    return <Redirect to="/admin" />;
+  }
+}

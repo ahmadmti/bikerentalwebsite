@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Booking = require("../models/bookingModel");
-const Car = require("../models/carModel");
+const Car = require("../models/BikeModel");
 const { v4: uuidv4 } = require("uuid");
 const User = require("../models/userModel");
 

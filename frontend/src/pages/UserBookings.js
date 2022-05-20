@@ -13,10 +13,15 @@ function UserBookings() {
   const dispatch = useDispatch();
   const { bookings } = useSelector((state) => state.bookingsReducer);
   const { loading } = useSelector((state) => state.alertsReducer);
+  const [filterBookings, setfilterBookings] = useState()
   const user = JSON.parse(localStorage.getItem("user"));
   useEffect(() => {
     dispatch(getAllBookings());
   }, []);
+  useEffect(() => {
+   let data = bookings?.filter((o) => o.user == user._id) 
+   setfilterBookings(data)
+  },[bookings])
 
   const rateingHandle = (stars, _id) => {
     axios.post("/api/bookings/setRating", { stars, _id }).then((res) => {
@@ -35,12 +40,11 @@ function UserBookings() {
     <DefaultLayout>
       {loading && <Spinner />}
       <h3 className="text-center mt-2">My Reservations</h3>
-
+     {console.log("ress", bookings)}
+     
       <Row justify="center" gutter={16}>
         <Col lg={16} sm={24}>
-          {bookings
-            .filter((o) => o.user == user._id)
-            .map((booking) => {
+          {filterBookings?.length > 0 ? filterBookings?.map((booking) => {
               return (
                 <Row gutter={16} className="bs1 mt-3 text-left">
                   <Col lg={6} sm={24}>
@@ -112,7 +116,9 @@ function UserBookings() {
                   </Col>
                 </Row>
               );
-            })}
+            } )
+            : <h4 style={{marginTop:"30vh",color:"grey"}}>No Reservation Found</h4>
+            }
         </Col>
       </Row>
     </DefaultLayout>
