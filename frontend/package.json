@@ -51,5 +51,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://192.168.100.52:5000/"
+ 
+  "proxy": "http://bikerental.geeklone.com:7003/",
+  "homepage": "."
 }

@@ -129,14 +129,14 @@ function Home() {
   return (
     <DefaultLayout>
       <Row className="mt-3" justify="center" gutter={16}>
-        <Col lg={3} sm={24} className="d-flex justify-content-left">
+        <Col lg={3} sm={8} xs={12} className="d-flex justify-content-left">
           <Box sx={{ minWidth: "100%" }}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Status</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={status}
+                
                 label="Age"
                 onChange={(e) => statusFilter(e)}
               >
@@ -146,7 +146,7 @@ function Home() {
             </FormControl>
           </Box>
         </Col>
-        <Col lg={3} sm={24} className="d-flex justify-content-left">
+        <Col lg={3} sm={8} xs={12} className="d-flex justify-content-left">
           <Box sx={{ minWidth: "100%" }}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Model</InputLabel>
@@ -154,7 +154,7 @@ function Home() {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 style={{ textAlign: "left", marginBottom: "20px" }}
-                value={model}
+                
                 name="model"
                 label="Model"
                 onChange={(e) => modelFilter(e)}
@@ -169,14 +169,14 @@ function Home() {
             </FormControl>
           </Box>
         </Col>
-        <Col lg={3} sm={24} className="d-flex justify-content-left">
+        <Col lg={3} sm={8} xs={12} className="d-flex justify-content-left">
           <Box sx={{ minWidth: "100%" }}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Color</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={color}
+              
                 label="Age"
                 onChange={(e) => colorFilter(e)}
               >
@@ -188,7 +188,7 @@ function Home() {
             </FormControl>
           </Box>
         </Col>
-        <Col lg={3} sm={24} className="d-flex justify-content-left">
+        <Col lg={3} sm={8} xs={12} className="d-flex justify-content-left">
           <Box sx={{ minWidth: "100%" }}>
             <FormControl
               sx={{
@@ -203,7 +203,7 @@ function Home() {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 style={{ textAlign: "left", marginBottom: "20px" }}
-                value={location}
+                
                 name="location"
                 label="Location"
                 onChange={(e) => locationFilter(e)}
@@ -218,14 +218,14 @@ function Home() {
             </FormControl>
           </Box>
         </Col>
-        <Col lg={3} sm={24} className="d-flex justify-content-left">
+        <Col lg={3} sm={8} xs={12} className="d-flex justify-content-left">
           <Box sx={{ minWidth: "100%" }}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Rating</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={rating}
+               
                 label="Age"
                 onChange={(e) => RatingFilter(e)}
               >
@@ -240,19 +240,20 @@ function Home() {
           </Box>
         </Col>
 
-        <Col lg={4} sm={24} className="d-flex justify-content-left">
+        {/* <Col lg={4} sm={8} xs={12} className="d-flex justify-content-left">
           <RangePicker
+          style={{height:"57px"}}
             showTime={{ format: "HH:mm" }}
             format="MMM DD yyyy HH:mm"
             onChange={setFilter}
           />
-        </Col>
+        </Col> */}
       </Row>
 
       {loading == true && <Spinner />}
- {totalCars.length>0?
+ {totalCars?.length>0?
       <Row justify="center" gutter={16}>
-        {totalCars.map((car) => {
+        {totalCars?.map((car) => {
           return (
             <Col lg={5} sm={24} xs={24}>
               <div className="car p-2 bs1">

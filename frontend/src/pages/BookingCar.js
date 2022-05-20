@@ -103,14 +103,14 @@ function BookingCar({ match }) {
             onChange={selectTimeSlots}
           />
           <br />
-          <button
+          {/* <button
             className="btn1 mt-2"
             onClick={() => {
               setShowModal(true);
             }}
           >
             See Booked Slots
-          </button>
+          </button> */}
           {from && to && (
             <div>
               <p>
